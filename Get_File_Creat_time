@@ -1,0 +1,24 @@
+import os
+import os.path
+import time
+
+time1=time.time()
+file_path=input('请输入文件路径：')
+#os.chdir(file_path)
+files_list=os.listdir(file_path)
+for file in files_list:
+	file_ctime=time.gmtime(os.path.getctime(os.path.join(file_path,file)))      #获取创建日期  struc_time格式
+	format_ctime=time.strftime('%Y-%m-%d',file_ctime)   #格式化日期为  2018-11-07
+	today=time.strftime('%Y-%m-%d',time.localtime())    #time.localtime()返回的就是struc_time格式
+	#print(format_ctime,today)
+	if format_ctime==today:
+		with open(os.path.join(file_path,file),'w+') as f:   #打开的文件要写全路径名称，我只写了file，没有用os.path.join(file_path,file)，执行完程序后不报错，但没有写入文件
+			 #print(os.path.join(file_path,file))     #用来调试
+			 f.write(os.path.join(file_path,file))
+			 #f.write(os.path.splitext(file)[1])    #已经有后缀了
+	else:
+		os.rm(os.path.join(file_path))
+
+time2=time.time()
+
+print('程序共执行了%f秒'%(time2-time1))
